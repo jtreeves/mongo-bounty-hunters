@@ -57,3 +57,96 @@ db.bounties.find({captured: true})
 
 FIND HAN
 db.bounties.find({reward : 1000000})
+
+FIND ALL NAMES
+db.bounties.distinct('name')
+
+DELETE STARBUCK
+db.bounties.remove({"_id" : ObjectId("5fd7a438c410b319b172f8ea")})
+
+DELETE DUPLICATE (OTHER HAN SOLO)
+db.bounties.remove({"_id" : ObjectId("5fd7a375c410b319b172f8e5")})
+
+RENAME WHITE CANARY
+db.bounties.update({name: 'Sara Lance'}, {$set: {name: 'White Canary'}})
+
+UPDATE ROCKET'S SHIP
+db.bounties.update({name: 'Rocket'}, {$set: {ship: 'The Milano 2'}})
+
+HIGH BOUNTIES
+db.bounties.find({reward: {$gt: 100000}})
+
+LOW BOUNTIES
+db.bounties.find({reward: {$lt: 1000}})
+db.bounties.find({reward: {$lte: 1000}})  // LTE
+
+NEBULA
+db.bounties.find({hunters: 'Nebula'})
+
+SHIPS OR
+db.bounties.find(
+    {
+        $or: [
+            {
+                ship: 'Waverider'
+            },
+            {
+                ship: 'Serenity'
+            }
+        ]
+    }
+)
+
+AND
+db.bounties.find(
+    {
+        client: 'Ayesha High Priestess of the Sovereign'
+    },
+    {
+        captured: false
+    }
+)
+
+UPDATE ALL ADD
+db.bounties.updateMany(
+    {},
+    {
+        $inc: {
+            reward: 333333
+        }
+    }
+)
+
+UPDATE ALL MULTIPLY
+db.bounties.updateMany(
+    {},
+    {
+        $mul: {
+            reward: 2
+        }
+    }
+)
+
+PUSH TO ARRAY
+db.bounties.update(
+    {
+        name: 'Malcolm Reynolds'
+    },
+    {
+        $push: {
+            hunters: 'Bobba Fetta'
+        }
+    }
+)
+
+PUSH BASED ON DIFFERENT CRITERIA
+db.bounties.update(
+    {
+        ship: 'Waverider'
+    },
+    {
+        $push: {
+            hunters: 'Bobba Fetta'
+        }
+    }
+)
