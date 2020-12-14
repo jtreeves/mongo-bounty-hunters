@@ -136,8 +136,6 @@ Check out the [Intermediate Mongo](https://gawdiseattle.gitbook.io/wdi/04-databa
 - Find the bounties that are greater than `100000`
 - Find the bounties that are less than `1000`
 - Find the bounties that are less than or equal to `1000`
-
-
 - Find the bounty with the hunter `Nebula`
 - Find the bounty with the ship `Waverider` OR `Serenity`
 - Find the bounty who is not captured AND has whose client is `Ayesha High Priestess of the Sovereign`

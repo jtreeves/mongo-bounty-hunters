@@ -55,11 +55,11 @@ db.bounties.find({client: 'Time Bureau'})
 FIND CAPTURED
 db.bounties.find({captured: true})
 
-FIND HAN
+FIND BY REWARD
 db.bounties.find({reward : 1000000})
 
 FIND ALL NAMES
-db.bounties.distinct('name')
+db.find({}, {name: true, _id: false})
 
 DELETE STARBUCK
 db.bounties.remove({"_id" : ObjectId("5fd7a438c410b319b172f8ea")})
@@ -78,12 +78,13 @@ db.bounties.find({reward: {$gt: 100000}})
 
 LOW BOUNTIES
 db.bounties.find({reward: {$lt: 1000}})
-db.bounties.find({reward: {$lte: 1000}})  // LTE
+db.bounties.find({reward: {$lte: 1000}})  //  LTE
 
-NEBULA
+FIND IF ARRAY CONTAINS SOMETHING
 db.bounties.find({hunters: 'Nebula'})
+db.bounties.find({hunters: {$all: ['Nebula']}})
 
-SHIPS OR
+FIND OR
 db.bounties.find(
     {
         $or: [
@@ -97,7 +98,9 @@ db.bounties.find(
     }
 )
 
-AND
+db.bounties.find({ship: {$in: ['Waverider', 'Serenity']}})
+
+FIND AND
 db.bounties.find(
     {
         client: 'Ayesha High Priestess of the Sovereign'
@@ -106,6 +109,8 @@ db.bounties.find(
         captured: false
     }
 )
+
+db.bounties.find({$and: [{captured: false}, {client: 'Ayesha High Priestess of the Sovereign'}]})
 
 UPDATE ALL ADD
 db.bounties.updateMany(
@@ -116,6 +121,7 @@ db.bounties.updateMany(
         }
     }
 )
+db.bounties.update({}, {$inc: {reward: 33333}}, {multi: true})
 
 UPDATE ALL MULTIPLY
 db.bounties.updateMany(
@@ -139,7 +145,7 @@ db.bounties.update(
     }
 )
 
-PUSH BASED ON DIFFERENT CRITERIA
+PUSH TO ARRAY BASED ON DIFFERENT CRITERIA
 db.bounties.update(
     {
         ship: 'Waverider'
@@ -150,3 +156,13 @@ db.bounties.update(
         }
     }
 )
+
+REMOVE ELEMENT FROM ARRAY
+db.bounties.update({hunters: 'Dengar'}, {$pull: {hunters: 'Dengar'}})
+
+UPSERT AND SET TO ADD FIELD TO ITEM
+db.bounties.update({name: 'Han Solo'}, {$set: {lastSeen: 'yesterday'}}, {upsert: true})
+
+UPSERT THAT FIELD TO ALL OTHER ITEMS
+db.bounties.update({}, {$set: {lastSeen: 'last week'}}, {upsert: false, multi: true})
+db.bounties.updateMany({}, {$set: {lastSeen: 'last week'}}, {upsert: false})
